@@ -1,15 +1,11 @@
 package grupo.misiontic.seguridad.controladores;
 
 import grupo.misiontic.seguridad.modelos.Rol;
-import grupo.misiontic.seguridad.modelos.Usuario;
 import grupo.misiontic.seguridad.repositorios.RepositorioRol;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
@@ -37,6 +33,7 @@ public class ControladorRol {
         return miRepositorioRol.save(infoRol);
     }
 
+    // consultar rol con ID
     @GetMapping("{idRol}")
     public Rol buscarRol(@PathVariable String idRol){
         return miRepositorioRol.findById(idRol).orElse(new Rol("",""));
@@ -71,7 +68,5 @@ public class ControladorRol {
         }
 
     }
-
-
 
 }

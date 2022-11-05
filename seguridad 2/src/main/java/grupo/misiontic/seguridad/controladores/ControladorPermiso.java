@@ -1,17 +1,11 @@
 package grupo.misiontic.seguridad.controladores;
 
 import grupo.misiontic.seguridad.modelos.Permiso;
-import grupo.misiontic.seguridad.modelos.Rol;
-import grupo.misiontic.seguridad.modelos.Usuario;
 import grupo.misiontic.seguridad.repositorios.RepositorioPermiso;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.UnknownServiceException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
@@ -57,6 +51,23 @@ public class ControladorPermiso {
         }else{
             log.error("permiso is null!");
         }
+    }
+
+    // modificar Permiso
+    @PutMapping("{idPermiso}")
+    public Permiso modificarUsuario(@PathVariable String idPermiso,@RequestBody Permiso infoRol){
+        Permiso permisoActual = miRepositorioPermiso.findById(idPermiso).orElse(null);
+
+        if(permisoActual!=null){
+            log.info("User find in DataBase {}",idPermiso);
+            permisoActual.setUrl(infoRol.getUrl());
+            permisoActual.setMetodo(infoRol.getMetodo());
+            log.info("update Permiso {}",idPermiso);
+            return miRepositorioPermiso.save(permisoActual);
+        }else{
+            return null;
+        }
+
     }
 
 

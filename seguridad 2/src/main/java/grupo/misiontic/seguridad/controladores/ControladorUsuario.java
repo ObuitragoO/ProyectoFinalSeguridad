@@ -1,6 +1,8 @@
 package grupo.misiontic.seguridad.controladores;
 
+import grupo.misiontic.seguridad.modelos.Rol;
 import grupo.misiontic.seguridad.modelos.Usuario;
+import grupo.misiontic.seguridad.repositorios.RepositorioRol;
 import grupo.misiontic.seguridad.repositorios.RepositorioUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ import java.util.List;
 public class ControladorUsuario {
     @Autowired // inicializar objetos NEW
     private RepositorioUsuario miRepositorioUsuario;
+
+    @Autowired // inicializar objeto
+    private RepositorioRol miRepositorioRol;
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping // servicio GET
@@ -75,8 +80,6 @@ public class ControladorUsuario {
      }
 
     }
-
-
     // code hiden password
     public String convertirSHA256(String password) {
         MessageDigest md = null;
@@ -92,6 +95,20 @@ public class ControladorUsuario {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    // asignar un idRol a un idUsuario
+    //
+    @PutMapping("{idUsuario}/rol/{idRol}")
+    public Usuario asignarRolUsuario(@PathVariable String idUsuario, @PathVariable String idRol){
+        Usuario usuario = miRepositorioUsuario.findById(idUsuario).orElse(null);
+        Rol rol = miRepositorioRol.findById(idRol).orElse(null);
+        if(usuario!=null && rol!=null){
+            usuario.setRol(rol);
+            return miRepositorioUsuario.save(usuario);
+        }else{
+            return null;
+        }
     }
 
 }
