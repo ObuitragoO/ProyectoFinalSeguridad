@@ -42,4 +42,36 @@ public class ControladorRol {
         return miRepositorioRol.findById(idRol).orElse(new Rol("",""));
     }
 
+    //eliminar rol
+    @DeleteMapping("{idRol}")
+    public void eliminarRol(@PathVariable String idRol){
+        Rol rolActual = miRepositorioRol.findById(idRol).orElse(null);
+        if(rolActual!=null){
+            miRepositorioRol.deleteById(idRol);
+            log.info("Rol is delete!"+idRol);
+        }else{
+            log.error("Rol is null!");
+        }
+
+    }
+
+    // modificar Rol
+    @PutMapping("{idRol}")
+    public Rol modificarUsuario(@PathVariable String idRol,@RequestBody Rol infoRol){
+        Rol rolActual = miRepositorioRol.findById(idRol).orElse(null);
+
+        if(rolActual!=null){
+            log.info("User find in DataBase {}",idRol);
+            rolActual.setNombre(infoRol.getNombre());
+            rolActual.setDescripcion(infoRol.getDescripcion());
+            log.info("update User {}",idRol);
+            return miRepositorioRol.save(rolActual);
+        }else{
+            return null;
+        }
+
+    }
+
+
+
 }

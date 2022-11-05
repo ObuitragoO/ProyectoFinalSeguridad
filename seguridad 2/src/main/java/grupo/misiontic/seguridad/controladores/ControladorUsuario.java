@@ -27,7 +27,6 @@ public class ControladorUsuario {
         return miRepositorioUsuario.findAll();
     }
 
-
     @GetMapping("{idUsuario}")
     public Usuario buscarUsuario(@PathVariable String idUsuario){
         return miRepositorioUsuario.findById(idUsuario).orElse(new Usuario("","",""));
@@ -43,6 +42,40 @@ public class ControladorUsuario {
         return miRepositorioUsuario.save(infoUsuario);
 
     }
+
+    //eliminar usuario
+    @DeleteMapping("{idUsuario}")
+    public void eliminarUsuario(@PathVariable String idUsuario){
+        Usuario usuarioActual = miRepositorioUsuario.findById(idUsuario).orElse(null);
+        if(usuarioActual!=null){
+            miRepositorioUsuario.deleteById(idUsuario);
+            log.info("User is delete!"+idUsuario);
+        }else{
+            log.error("User is null!");
+        }
+
+    }
+
+
+    //actualizar usuario
+
+    @PutMapping("{idUsuario}")
+    public Usuario modificarUsuario(@PathVariable String idUsuario,@RequestBody Usuario infoUsario){
+     Usuario usuarioActual = miRepositorioUsuario.findById(idUsuario).orElse(null);
+
+     if(usuarioActual!=null){
+         log.info("User find in DataBase {}",idUsuario);
+         usuarioActual.setCorreo(infoUsario.getCorreo());
+         usuarioActual.setContrasena(convertirSHA256(infoUsario.getContrasena()));
+         log.info("update User {}",idUsuario);
+         usuarioActual.setSeudonimo(infoUsario.getSeudonimo());
+         return miRepositorioUsuario.save(usuarioActual);
+     }else{
+         return null;
+     }
+
+    }
+
 
     // code hiden password
     public String convertirSHA256(String password) {
