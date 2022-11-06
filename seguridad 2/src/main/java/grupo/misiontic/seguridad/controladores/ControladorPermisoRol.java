@@ -71,18 +71,27 @@ public class ControladorPermisoRol {
         }
     }
 
+    //eliminar todos los permisos-role
+    @DeleteMapping("All")
+    public void eliminarTodosLosPermisosRol(){
+        log.info("Find all");
+        miRepositorioPermisoRol.deleteAll();
+        log.info("Deleting all Permissions-Rols");
+    }
+
     // modificacion
-    @PutMapping("{idRolPermiso}")
-    public PermisoRol modificarRolPermiso(@PathVariable String idRolPermiso,@RequestBody PermisoRol infopermisoRol){
-        PermisoRol permisoRolActual = miRepositorioPermisoRol.findById(idRolPermiso).orElse(null);
-        if(permisoRolActual!=null){
-            log.info("User find in DataBase {}",idRolPermiso);
-            permisoRolActual.setRol(infopermisoRol.getRol());
-            permisoRolActual.setPermiso(infopermisoRol.getPermiso());
-            log.info("update User {}",permisoRolActual);
+    @PutMapping("{idRolPermiso}/rol/{idRol}/permiso/{idPermiso}")
+    public PermisoRol modificarPermisoRol(@PathVariable String idRolPermiso,@PathVariable String idRol,@PathVariable String idPermiso){
+        PermisoRol permisoRolActual=miRepositorioPermisoRol
+                .findById(idRolPermiso)
+                .orElse(null);
+        Rol elRol=miRepositorioRol.findById(idRol).get();
+        Permiso elPermiso=miRepositorioPermiso.findById(idPermiso).get();
+        if(permisoRolActual!=null && elPermiso!=null && elRol!=null){
+            permisoRolActual.setPermiso(elPermiso);
+            permisoRolActual.setRol(elRol);
             return miRepositorioPermisoRol.save(permisoRolActual);
         }else{
-            log.error("sorry, idRolPermiso is null ");
             return null;
         }
     }
