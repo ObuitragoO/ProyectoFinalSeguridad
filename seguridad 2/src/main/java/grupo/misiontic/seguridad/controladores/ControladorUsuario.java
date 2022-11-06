@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin  // de que usuarios se van a conectar
+@CrossOrigin  // del que usuarios se van a conectar
 @RestController //servicio rest
 
 @RequestMapping("/usuario") //mapeo de valores desde postman
@@ -34,7 +34,9 @@ public class ControladorUsuario {
 
     @GetMapping("{idUsuario}")
     public Usuario buscarUsuario(@PathVariable String idUsuario){
-        return miRepositorioUsuario.findById(idUsuario).orElse(new Usuario("","",""));
+        return miRepositorioUsuario
+                .findById(idUsuario)
+                .orElse(null);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -101,8 +103,12 @@ public class ControladorUsuario {
     //
     @PutMapping("{idUsuario}/rol/{idRol}")
     public Usuario asignarRolUsuario(@PathVariable String idUsuario, @PathVariable String idRol){
-        Usuario usuario = miRepositorioUsuario.findById(idUsuario).orElse(null);
-        Rol rol = miRepositorioRol.findById(idRol).orElse(null);
+        Usuario usuario = miRepositorioUsuario
+                            .findById(idUsuario)
+                            .orElse(null);
+        Rol rol = miRepositorioRol
+                            .findById(idRol)
+                            .orElse(null);
         if(usuario!=null && rol!=null){
             usuario.setRol(rol);
             return miRepositorioUsuario.save(usuario);
