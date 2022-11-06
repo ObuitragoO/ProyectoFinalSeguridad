@@ -71,6 +71,14 @@ public class ControladorPermisoRol {
         }
     }
 
+    //eliminar todos los permisos-role
+    @DeleteMapping("All")
+    public void eliminarTodosLosPermisosRol(){
+        log.info("Find all");
+        miRepositorioPermisoRol.deleteAll();
+        log.info("Deleting all Permissions-Rols");
+    }
+
     // modificacion
     @PutMapping("{idRolPermiso}")
     public PermisoRol modificarRolPermiso(@PathVariable String idRolPermiso,@RequestBody PermisoRol infopermisoRol){

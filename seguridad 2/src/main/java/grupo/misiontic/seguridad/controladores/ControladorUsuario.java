@@ -63,6 +63,12 @@ public class ControladorUsuario {
 
     }
 
+    //eliminar todos los usuarios
+    @DeleteMapping("All")
+    public void eliminarTodosLosUsuarios(){
+        log.info("Find all Users");
+        miRepositorioUsuario.deleteAll();
+    }
 
     //actualizar usuario
 

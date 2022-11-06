@@ -52,6 +52,14 @@ public class ControladorRol {
 
     }
 
+    //eliminar todos los roles
+    @DeleteMapping("All")
+    public void eliminarTodosLosRoles(){
+        log.info("Find all Rols");
+        miRepositorioRol.deleteAll();
+        log.info("Deleting all Rols");
+    }
+
     // modificar Rol
     @PutMapping("{idRol}")
     public Rol modificarUsuario(@PathVariable String idRol,@RequestBody Rol infoRol){
