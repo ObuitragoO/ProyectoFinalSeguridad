@@ -1,6 +1,5 @@
 package grupo.misiontic.seguridad.controladores;
 
-
 import grupo.misiontic.seguridad.modelos.Permiso;
 import grupo.misiontic.seguridad.modelos.PermisoRol;
 import grupo.misiontic.seguridad.modelos.Rol;
@@ -91,6 +90,20 @@ public class ControladorPermisoRol {
             permisoRolActual.setPermiso(elPermiso);
             permisoRolActual.setRol(elRol);
             return miRepositorioPermisoRol.save(permisoRolActual);
+        }else{
+            return null;
+        }
+    }
+
+    @GetMapping("validar-permiso/rol/{id_rol}")
+    public PermisoRol getPermiso(@PathVariable String id_rol,@RequestBody Permiso infoPermiso){
+        log.info("validad permiso rol id");
+        Permiso elPermiso=this.miRepositorioPermiso
+                .getPermiso(infoPermiso.getUrl(),infoPermiso.getMetodo());
+        Rol elRol=this.miRepositorioRol.findById(id_rol).get();
+        if (elPermiso!=null && elRol!=null){
+            return
+                    this.miRepositorioPermisoRol.getPermisoRol(elRol.get_id(),elPermiso.get_id());
         }else{
             return null;
         }
