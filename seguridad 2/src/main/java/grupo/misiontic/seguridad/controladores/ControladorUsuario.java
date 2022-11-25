@@ -140,6 +140,19 @@ public class ControladorUsuario {
             return null;
         }
     }
+    @GetMapping("/email/{email}")
+    public Usuario get_by_email(@PathVariable String email, final HttpServletResponse response) throws IOException {
+        Usuario usuarioActual = this.miRepositorioUsuario
+                .getUserByEmail(email);
+        if (usuarioActual!=null ) {
+            log.info("Resultado{}",usuarioActual);
+            return usuarioActual;
+        }else{
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            log.info("Resultado{}",usuarioActual);
+            return null;
+        }
+    }
 
 
 }
