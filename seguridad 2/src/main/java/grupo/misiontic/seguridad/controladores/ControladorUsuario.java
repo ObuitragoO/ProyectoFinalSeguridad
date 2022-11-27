@@ -131,12 +131,15 @@ public class ControladorUsuario {
         Usuario usuarioActual=this.miRepositorioUsuario
                 .getUserByEmail(infoUsuario.getCorreo());
         log.info("Usuario que llega de BD {}",usuarioActual);
-
+        log.info("1 cond {} ",usuarioActual!=null );
+        log.info("1 cond{} ",usuarioActual.getContrasena().equals(convertirSHA256(infoUsuario.getContrasena())));
         if (usuarioActual!=null && usuarioActual.getContrasena().equals(convertirSHA256(infoUsuario.getContrasena()))) {
             usuarioActual.setContrasena("");
             return usuarioActual;
         }else{
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
+            log.info("falla ");
             return null;
         }
     }

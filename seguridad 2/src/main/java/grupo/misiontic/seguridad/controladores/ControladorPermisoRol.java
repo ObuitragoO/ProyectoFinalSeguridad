@@ -33,13 +33,19 @@ public class ControladorPermisoRol {
 
     @PostMapping("rol/{idRol}/permiso/{idPermiso}")
     public PermisoRol crearPermisoRol(@PathVariable String idRol,@PathVariable String idPermiso){
+        log.info("creando RolPermiso");
+        log.info("Rol Id"+ idRol );
+        log.info("Permiso Id" + idPermiso);
         Rol rol = miRepositorioRol.findById(idRol).orElse(null);
         Permiso permiso = miRepositorioPermiso.findById(idPermiso).orElse(null);
-
+        log.info("rol"+rol);
+        log.info("permiso"+permiso);
         if(rol!=null&&permiso!=null){
             PermisoRol permisoRol = new PermisoRol(rol,permiso);
+            log.info("done");
             return miRepositorioPermisoRol.save(permisoRol);
         }else {
+            log.info("fail");
             return null;
         }
     }
